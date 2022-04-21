@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Home, Shop, Login, RegisterVehicle, RegisterVendor,
+   VehicleView, VendorView, AddShow, EditShow, AddItem } from './components/exports';
+//service_393zopg
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Routes>
+          <Route path = '/' element = {<Home/>} />
+          <Route path = '/shop' element = {<Shop/>} />
+          <Route path = '/admin' element = {<Login/>} />
+          <Route path = '/register-vehicle' element = {<RegisterVehicle/>} />
+          <Route path = '/register-vendor' element = {<RegisterVendor/>} />
+          <Route path = '/admin/request/vehicles/:id' element = {<VehicleView/>} />
+          <Route path = '/admin/request/vendors/:id' element = {<VendorView/>} />
+          <Route path = '/admin/shows/add' element = {<AddShow/>} />
+          <Route path = '/admin/shows/edit/:id' element = {<EditShow/>} />
+          <Route path = '/admin/items/add' element = {<AddItem/>} />
+      </Routes>
+    </Router>
+  )
 }
 
-export default App;
+export default App
