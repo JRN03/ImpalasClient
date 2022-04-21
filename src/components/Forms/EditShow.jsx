@@ -20,7 +20,7 @@ const EditShow = () => {
         setForm(res.data[0]);
         setLoading(false);
     }, err => {setLoading(false)})
-  },[]);
+  },[id]);
 
   const handleSubmit = (e) => {
       e.preventDefault();

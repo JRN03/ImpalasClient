@@ -3,7 +3,6 @@ import { Navbar } from '../exports';
 import Header from '../../assets/2022.png';
 import axios from 'axios';
 import { useEffect } from 'react';
-import base64 from 'base64-js';
 import CarLoad from '../Animations/CarLoad';
 
 const CompleteVehicleForm = ({data}) => {
@@ -36,7 +35,7 @@ const CompleteVehicleForm = ({data}) => {
       setLoaded(true);
       console.log();
     }
-  },[data]);
+  },[data,img1,img2]);
 
   const accept = (e) => {
     setRejection(true);

@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 
-const ItemRow = ({item,setLoaded, handleDelete}) => {
+const ItemRow = ({item, handleDelete}) => {
 
   return (
     <div className='request row'>

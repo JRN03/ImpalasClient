@@ -7,22 +7,13 @@ import CarLoad from '../Animations/CarLoad';
 const VehicleRegistration = () => {
 
   const [form, setForm] = useState({});
-  const [submitted,setSubmitted] = useState(false);
-  const [error,setError] = useState(false);
   const [shows, setShows] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  const resetError = () => {
-    setError(false);
-  }
-  const resetSubmitted = () => {
-    setSubmitted(false);
-  }
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoaded(false);
     if(!validate(form)) {
-      setError(true);
       return;
     }
 
@@ -39,12 +30,9 @@ const VehicleRegistration = () => {
       }
     })
       .then(res => {
-        setSubmitted(true);
         setLoaded(true);
-        resetError();
       }, rej => {
         setLoaded(true);
-        setError(true);
         console.log(rej);
       })
   }
