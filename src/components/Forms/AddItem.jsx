@@ -2,6 +2,9 @@ import { useState } from 'react';
 import Navbar from "../Navbar";
 import axios from 'axios';
 import CarLoad from '../Animations/CarLoad';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const AddItem = () => {
 
   const [form, setForm] = useState({});
@@ -23,7 +26,16 @@ const AddItem = () => {
       }
     }).then(res => {
       setLoaded(true);
-    }, err => setLoaded(true));
+      toast("Success. Item has been added to the shop.",{
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    }, err => {
+      toast("Error. Item could not be added to the shop. Please try again",{
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    });
 
   }
 
@@ -38,6 +50,7 @@ const AddItem = () => {
   return (
     <form onSubmit = {handleSubmit} className='form-page'>
         <Navbar/>
+        <ToastContainer/>
         <div className='form-section'>
           <h1>Add Items To Shop</h1>
           <h2>Item Details</h2>

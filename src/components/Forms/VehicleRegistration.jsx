@@ -3,6 +3,8 @@ import { Navbar } from '../exports';
 import Header from '../../assets/2022.png';
 import axios from 'axios';
 import CarLoad from '../Animations/CarLoad';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VehicleRegistration = () => {
 
@@ -22,7 +24,6 @@ const VehicleRegistration = () => {
     for ( var key in form ) {
       data.append(key, form[key]);
     }
-    console.log(data);
 
     axios.post("http://localhost:5000/register-vehicle",data, {
       header: {
@@ -31,9 +32,17 @@ const VehicleRegistration = () => {
     })
       .then(res => {
         setLoaded(true);
+        toast("Application Submitted. Please wait to be contacted while application is under review", {
+          draggable: true,
+          position: toast.POSITION.TOP_LEFT
+        });
       }, rej => {
         setLoaded(true);
         console.log(rej);
+        toast("Error. There was an error submitting your application. Please refresh and try again.", {
+          draggable: true,
+          position: toast.POSITION.TOP_LEFT
+        });
       })
   }
 
@@ -95,6 +104,7 @@ const VehicleRegistration = () => {
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data" className = "form-page">
       <Navbar/>
+      <ToastContainer/>
       <div className = 'form-section header'>
           <img alt="" src={Header}/>
           <h1>Upcoming Events</h1>
@@ -148,7 +158,7 @@ const VehicleRegistration = () => {
             />
         </div>
         <div className = 'age-container'>
-          <input onChange = {handleChange} className = 'age sm' type = 'number' autoComplete='off' name = 'age' placeholder = "age*" min = '0' required/>
+          <input onWheel={(e) => e.target.blur()} onChange = {handleChange} className = 'age sm' type = 'number' autoComplete='off' name = 'age' placeholder = "age*" min = '0' required/>
         </div>
         <h2>Address</h2>
         <div className='input-row'>

@@ -45,8 +45,9 @@ const Home = () => {
             <h3>2600 Geneva Avenue, Daly City</h3>
             <h3>CA, 94014</h3>
             <div className = "buttons">
-              <Link className = "link" to="/register-vehicle">Register</Link>
+              <Link className = "link" to="/register-vehicle">Vehicles</Link>
               <Link className = "link" to="/register-vendor">Vendors</Link>
+              <Link className = "link" to="/register-model">Models</Link>
             </div>
         </div>
       </div>

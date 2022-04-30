@@ -3,6 +3,8 @@ import axios from 'axios';
 import AdminPage from './AdminPage';
 import Navbar from '../Navbar';
 import CarLoad from '../Animations/CarLoad';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
 
@@ -11,20 +13,24 @@ const Login = () => {
   const [auth, setAuth] = useState(false);
   const [requests, setRequests] = useState({});
   const [loading, setLoading] = useState(false);
+
   const handleSubmit = (e) => {
-    e.preventDefault();
     setLoading(true);
     axios.post("http://localhost:5000/admin/login",{username:form.username,password:form.password})
       .then(res => {
         setToken(res.data.token)
         localStorage.setItem('token',res.data.token);
       }, rej => {
-        alert("Invalid Credentials");
         setLoading(false);
+        toast("Error. No admin account could be associated with these credentials. Please try again.", {
+          draggable: true,
+          position: toast.POSITION.TOP_LEFT
+        });
       });
   }
   
   const handleChange = (e) => {
+    e.preventDefault();
     setForm({...form,[e.target.name]:e.target.value});
   }
 
@@ -48,6 +54,7 @@ const Login = () => {
   if(auth) return <AdminPage requests={requests}/>
   return (
     <div className = "admin-login">
+      <ToastContainer/>
       <Navbar/>
       <form className='admin-login-form' onSubmit = {handleSubmit}>
         <h1>Welcome Back</h1>

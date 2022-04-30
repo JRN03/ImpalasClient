@@ -2,6 +2,9 @@ import { useState,useEffect } from 'react';
 import Header from '../../assets/2022.png';
 import Navbar from "../Navbar";
 import axios from 'axios';
+import Carload from "../Animations/CarLoad.jsx";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VendorRegistration = () => {
   
@@ -9,17 +12,20 @@ const VendorRegistration = () => {
   const [cost, setCost] = useState(0);
   const [form, setForm] = useState({});
   const [shows, setShows] = useState([]);
-
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     axios.get("http://localhost:5000/shows")
     .then(res => {
       setShows(res.data);
+      setLoaded(true);
     }, rej => {console.log(rej)});
   },[]);
 
   const handleSubmit = (e) => {
     let booth;
+    e.preventDefault();
+    setLoaded(false);
     switch(form.cost) {
       case 300: 
         booth = 'sm-booth';
@@ -33,7 +39,17 @@ const VendorRegistration = () => {
     }
     axios.post("http://localhost:5000/register-vendor",{...form, booth:booth})
     .then(res => {
+      setLoaded(true);
+      toast("Success. Application has been accepted.", {
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
     }, rej => {
+      setLoaded(true);
+      toast("Error. Application could not be accepted. Please refresh and try again", {
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
     })
 
   }
@@ -62,10 +78,11 @@ const VendorRegistration = () => {
         break;
     }
   } 
-
+  if(!loaded) return <Carload/>
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data" className = "form-page">
       <Navbar/>
+      <ToastContainer/>
       <div className = 'form-section header'>
           <img alt="" src={Header}/>
           <h1>Upcoming Events</h1>
@@ -88,7 +105,7 @@ const VendorRegistration = () => {
           </div>
           <div className='input-row'>
             <input onChange = {handleChange} type = 'email' placeholder = 'Company Email' name = 'email' autoComplete = 'off' required/>
-            <input onChange = {handleChange} type = 'tel' placeholder = 'Company Number' name = 'phone' autoComplete = 'off' required/>
+            <input onChange = {handleChange} type = 'number' placeholder = 'Company Number' name = 'phone' autoComplete = 'off' required/>
           </div>
           <div className='input-row'>
             <input onChange = {handleChange} className = 'lg left' type = 'text' placeholder='Social Media Info' name = 'social' autoComplete='off'/>
@@ -111,12 +128,12 @@ const VendorRegistration = () => {
           </div>
           <div className='input-row'>
             <div className='entry'>
-              <input onChange = {changeCost} name = 'booth' type = 'radio' value = "foodTruck" />
+              <input onChange = {changeCost} name = 'booth' type = 'radio' value = "Food Truck" />
               <label htmlFor = "booth">$750 Per Food Truck, Cart, or Trailer</label>
             </div>
           </div>
           <div className='input-row close'>
-            <input onChange = {changeQty} className='sm' type = 'number' min = '0' name = 'quantity' placeholder='Quantity' required/>
+            <input onWheel={(e) => e.target.blur()} onChange = {changeQty} className='sm' type = 'number' min = '0' name = 'quantity' placeholder='Quantity' required/>
             <input className='sm' type = 'text' value = {`$${cost*qty}`} placeholder = 'Total' name = 'cost' readOnly required/>
           </div>
       </div>

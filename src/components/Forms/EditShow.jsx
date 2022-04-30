@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Navbar from "../Navbar";
 import CarLoad from '../Animations/CarLoad';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditShow = () => {
 
@@ -23,14 +25,25 @@ const EditShow = () => {
   },[id]);
 
   const handleSubmit = (e) => {
-      e.preventDefault();
       setLoading(true);
       axios.post(`http://localhost:5000/admin/shows/edit/${id}`, form, {
           headers: {
               'auth-token':localStorage.getItem("token")
           }
       })
-      .then(res => setLoading(false), err => console.log(err));
+      .then(res => {
+        setLoading(false);
+        toast("Success. Show has been updated.", {
+          draggable: true,
+          position: toast.POSITION.TOP_LEFT
+        });
+      }, err => {
+        toast("Error. Show could not be updated.", {
+          draggable: true,
+          position: toast.POSITION.TOP_LEFT
+        });
+        setLoading(false);
+      });
   }
 
   const handleChange = (e) => {
@@ -41,6 +54,7 @@ const EditShow = () => {
   return (
     <form onSubmit = {handleSubmit} className='form-page add-shows'>
     <Navbar/>
+    <ToastContainer/>
     <div className='form-section'>
       <h1>Edit Event</h1>
       <h2>Event Details</h2>

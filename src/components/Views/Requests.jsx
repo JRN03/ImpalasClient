@@ -2,7 +2,7 @@ import {useState} from 'react';
 import Row from "../Login/Row.jsx";
 import VendorRow from '../Login/VendorRow';
 import VehicleRow from '../Login/VehicleRow';
-
+import OrderRow from '../Login/OrderRow.jsx';
 const Requests = ({requests}) => {
   const [labels,setLabels] = useState(
     {l1: "Name", l2:"Vehicle Type", l3: "Phone Number", l4:"Paid"}
@@ -20,7 +20,7 @@ const Requests = ({requests}) => {
   }
   const setOrder = () => {
     setType("order");
-    setLabels({...labels,l2:"Address",l3:"Order Number",l4:"Status"})
+    setLabels({...labels,l2:"Address",l3:"Order Total",l4:"Status"})
   }
 
   const statusChange = (e) => {
@@ -29,7 +29,7 @@ const Requests = ({requests}) => {
   }
   const vehicles = requests.data.vehicles;
   const vendors = requests.data.vendors;
-  const orders = requests.data.shows;
+  const orders = requests.data.orders;
 
   return (
     <div className='dash-container'>
@@ -47,7 +47,7 @@ const Requests = ({requests}) => {
           <Row c1="Name" c2={labels.l2} c3={labels.l3} c4={labels.l4}/>
           {type === "vehicle" && vehicles.filter(v => v.status === filter).map(vehicle => <VehicleRow c1={vehicle.fName + " " + vehicle.lName} c2 = {vehicle.entry} c3 = {vehicle.phone} c4 = {vehicle.paid} id = {vehicle._id} />)}
           {type === "vendor" && vendors.filter(v => v.status === filter).map(vendor => <VendorRow c1={vendor.name} c2 = {vendor.booth} c3 = {vendor.phone} c4 = {vendor.paid} id = {vendor._id}/>)}
-          {type === "order" && orders.filter(o => o.status === filter).map(order => <VendorRow c1={order.name} c2 = {order.address} c3 = {order.number} c4 = {order.status} id = {order._id}/>)}
+          {type === "order" && orders.filter(o => (o.status === filter) || ((o.status === "Processed" && filter === "Accepted"))).map(order => <OrderRow c1={order.recipient} c2 = {order.address} c3 = {order.total} c4 = {order.status} id = {order._id}/>)}
         </div>
     </div>
   )

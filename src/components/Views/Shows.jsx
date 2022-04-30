@@ -18,7 +18,7 @@ const Show = ({requests}) => {
       }
     }).then(res =>{
       setShows(shows.filter(s => (
-        s.id === show._id
+        s._id !== show._id
       )));
       setLoaded(true);
     },rej => {

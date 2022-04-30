@@ -3,6 +3,8 @@ import Header from '../../assets/2022.png';
 import Navbar from "../Navbar";
 import axios from 'axios';
 import CarLoad from '../Animations/CarLoad';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VendorRegistration = ({form}) => {
   
@@ -20,19 +22,45 @@ const VendorRegistration = ({form}) => {
     }, rej => {console.log(rej)});
   },[]);
 
-  const accept = () => {
+  const accept = (e) => {
+    setLoaded(false);
     axios.post("http://localhost:5000/admin/requests/vendors/accepted", {id:form._id},{
       headers: {
         "auth-token": token
       }
-    }).then(res => console.log("Success"), rej => console.log(rej));
+    }).then(res => {
+      setLoaded(true);
+      toast("Success. Application has been accepted.", {
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    }, rej => {
+      setLoaded(true);
+      toast("Error. Application could not be accepted. Please refresh and try again", {
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    });
   }
   const reject = (e) => {
+    setLoaded(false);
     axios.post("http://localhost:5000/admin/requests/vehicles/denied", {id:form._id,message:rejectMessage},{
       headers: {
         "auth-token": token
       }
-    }).then(res => console.log("Success"), rej => console.log(rej));
+    }).then(res => {
+      setLoaded(true);
+      toast("Success. Application has been rejected.", {
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    }, rej => {
+      setLoaded(true);
+      toast("Error. The application could not be rejected. Please refresh and try again", {
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    });
   }
   const handleChange = (e) => {
     e.preventDefault();
@@ -46,6 +74,7 @@ const VendorRegistration = ({form}) => {
   return (
     <form encType="multipart/form-data" className = "form-page">
       <Navbar/>
+      <ToastContainer/>
       <fieldset disabled='disabled'>
       <div className = 'form-section header'>
           <img alt="" src={Header}/>

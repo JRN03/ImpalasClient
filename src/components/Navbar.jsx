@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Logo from '../assets/Logo.png';
+import cart from "../assets/cart.png";
 
 const Navbar = () => {
   return (
@@ -9,6 +10,8 @@ const Navbar = () => {
           <Link className = "nav-link" to="/">Home</Link>
           <Link className = "nav-link" to="/shop">Shop</Link>
           <Link className = "nav-link" to="/admin">Admin</Link>
+          <Link className = "nav-link" to="/about">About</Link>
+          <Link className = "nav-link cart" to="/checkout"><img src={cart} alt=""/></Link>
         </div>
     </div>
   )

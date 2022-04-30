@@ -1,19 +1,30 @@
 import { useState } from 'react'
 import axios from 'axios'
 import Navbar from "../Navbar"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const AddShow = () => {
   const [form, setForm] = useState({});
 
   const handleSubmit = (e) => {
-
+    e.preventDefault();
     axios.post("http://localhost:5000/admin/shows",form,{
       headers: {
         'auth-token': localStorage.getItem('token')
       }
     })
     .then(res => {
-      alert("Event Added");
-    }, rej => {});
+      toast("Success. Show has been added.",{
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    }, rej => {
+      toast("Error. Event could not be added. Please try again",{
+        draggable: true,
+        position: toast.POSITION.TOP_LEFT
+      });
+    });
 
   }
   const handleChange = (e) => {
@@ -24,6 +35,7 @@ const AddShow = () => {
   return (
     <form onSubmit = {handleSubmit} className='form-page add-shows'>
       <Navbar/>
+      <ToastContainer/>
       <div className='form-section'>
         <h1>Add a New Event</h1>
         <h2>Event Details</h2>
