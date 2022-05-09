@@ -17,7 +17,7 @@ const CompleteVehicleForm = ({data}) => {
   const [img1, setImg1] = useState();
   const [img2, setImg2] = useState();
   const [loaded, setLoaded] = useState(false);
-
+  const [invoice, setInvoice] = useState(0);
   useEffect(() => {
     axios.get("http://localhost:5000/shows")
     .then(res => {
@@ -42,7 +42,7 @@ const CompleteVehicleForm = ({data}) => {
   const accept = (e) => {
     setLoaded(false);
     setRejection(false);
-    axios.post("http://localhost:5000/admin/requests/vehicles/accepted", {id:data._id},{
+    axios.post("http://localhost:5000/admin/requests/vehicles/accepted", {id:data._id,invoice:invoice},{
       headers: {
         "auth-token": token
       }
@@ -87,6 +87,10 @@ const CompleteVehicleForm = ({data}) => {
   const cancel = (e) => {
     e.preventDefault();
     setRejection(false);
+  }
+  const handleInvoice = (e) => {
+    e.preventDefault();
+    setInvoice(e.target.value);
   }
   if(!loaded) return <CarLoad/>
   return (
@@ -352,9 +356,13 @@ const CompleteVehicleForm = ({data}) => {
             <button onClick = {cancel} className='reject'>Cancel</button>
           </div>
       </div>): (
+        <div className='form-section'>
+          <h1>Invoice Amount</h1>
+          <input onChange = {handleInvoice} className = 'lg' type = "number" min="0" name="invoice" placeholder='Invoice Amount' required/>
         <div className='actions'>
           <button onClick = {accept} className='accept'>Accept</button>
           <button onClick = {() => {setRejection(true)}} className='reject'>Reject</button>
+        </div>
         </div>
       )}
     </form>

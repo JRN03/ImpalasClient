@@ -7,14 +7,13 @@ import { toast }  from "react-toastify";
 
 toast.configure();
 
-const Checkout = ({cart, items}) => {
+const Checkout = ({cart, items, handleRemove}) => {
 
   const findItem = (id) => {
     let item;
     items.forEach(i => {
       if(i._id === id) item = i;
     });
-    console.log(item);
     return item;
   }
 
@@ -38,7 +37,6 @@ const Checkout = ({cart, items}) => {
       tempItems
     });
     const status = response.data;
-    console.log({response});
     if(status === "success"){
       toast("Order has been received. You will be sent a tracking number once the order is processed.", { type: "success" });
     }else {
@@ -55,15 +53,15 @@ const Checkout = ({cart, items}) => {
           <Row className = "row labels" item="Item" quantity="Quantity" cost = "Cost"/>
           <hr/>
           {Object.keys(cart).map((keyName, i) => (
-            <div key={i}>
-              <Row item = {findItem(keyName).title} quantity = {cart[keyName]} cost = {`$ ${findItem(keyName).price*cart[keyName]}`}/>
+            cart[keyName] > 0 && <div key={i}>
+              <Row handleRemove = {handleRemove} id = {keyName} item = {findItem(keyName).title} quantity = {cart[keyName]} cost = {`$ ${findItem(keyName).price*cart[keyName]}`}/>
             </div>
           ))}
         </div>
         <div className='checkout-controls'>
             <h2>Total: $ {price}</h2>
             <StripeCheckout
-              stripeKey='pk_test_51Kt7tlBUdDJl779XcABkEEie7phKsa0C4wHQrzX1Dmpxj4o4lE0NG9ARl58rV3k7hizlX4TF12h5HqDgzxSvzsP300gzLJw1Z3'
+              stripeKey='pk_live_51Kt7tlBUdDJl779XVZsjao5vPcjheUHbXuX2k2yEhsRMhZYVXqxDiiiV0rH6SCsXy4lfu4G6UsqUkkMrNDa9byyT00GUYxpcAn'
               token={handleToken}
               billingAddress
               shippingAddress

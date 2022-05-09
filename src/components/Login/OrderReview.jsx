@@ -3,6 +3,7 @@ import Navbar from '../Navbar';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CarLoad from "../Animations/CarLoad";
+import { toast } from 'react-toastify';
 
 const OrderReview = () => {
 
@@ -29,11 +30,14 @@ const OrderReview = () => {
       setService(e.target.value);
   }
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const body = await axios.post(`http://localhost:5000/admin/orders`, {link:link,id:id,service:service}, {
         headers: {
             "auth-token": localStorage.getItem("token")
         }
+    });
+    toast("Order has been updated.", {
+        type: "success",
+        position: toast.POSITION.TOP_LEFT
     });
   }
 

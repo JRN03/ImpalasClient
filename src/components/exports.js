@@ -14,3 +14,4 @@ export {default as EditShow} from "./Forms/EditShow.jsx";
 export {default as AddItem} from "./Forms/AddItem.jsx";
 export {default as Checkout} from "./Checkout/Checkout.jsx";
 export {default as CheckoutReview} from "./Login/OrderReview";
+export {default as Invoice} from "./Checkout/Invoice";

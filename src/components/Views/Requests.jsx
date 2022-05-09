@@ -20,7 +20,11 @@ const Requests = ({requests}) => {
   }
   const setOrder = () => {
     setType("order");
-    setLabels({...labels,l2:"Address",l3:"Order Total",l4:"Status"})
+    setLabels({...labels,l2:"Address",l3:"Order Total",l4:"Status"});
+  }
+  const setModel = () => {
+    setType("model");
+    setLabels({...labels, l2:"Email", l3: "Phone", l4: "Status"});
   }
 
   const statusChange = (e) => {
@@ -37,6 +41,7 @@ const Requests = ({requests}) => {
             <h2 onClick={setVehicle} className={type === 'vehicle' ? 'active' : ""}>Vehicles</h2>
             <h2 onClick={setVendor} className={type === 'vendor' ? 'active' : ""}>Vendors</h2>
             <h2 onClick={setOrder} className={type === 'order' ? 'active' : ""}>Orders</h2>
+            <h2 onClick={setModel} className={type === 'model' ? 'active' : ""}>Models</h2>
             <select onChange = {statusChange}>
               <option value = "Pending">Pending</option>
               <option value = "Accepted">Accepted</option>
